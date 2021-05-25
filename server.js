@@ -61,10 +61,13 @@
 
 const { request, response } = require('express');
 var express = require('express');
-var server = express();
-server.use(express.json());
 var mongoose = require('mongoose');
-var productsModel = require('./productModel');
+//var productsModel = require('./productModel');
+var routes = require('./routes/routes');
+var server = express();
+var router = express.Router();
+server.use(express.json());
+
 mongoose.connect("mongodb://localhost:27017/mynode", { useNewUrlParser: true }, (error) => {
     if (error) {
         console.log("mongodb connection error:", error);
@@ -84,50 +87,69 @@ server.listen(3000, (err) => {
     }
 });
 
-server.get('/test', (request, response) => {
-    response.send({
-        status: true,
-        data: "successfull....."
-    });
-});
+// server.get('/test', (request, response) => {
+//     response.send({
+//         status: true,
+//         data: "successfull....."
+//     });
+// });
 
 
 /**
  * insert new product to database and get all the products in database
  */
-server.post('/createProducts', (req, res) => {
-    var productsModelData = new productsModel();
-    productsModelData.item = "pen";
-    productsModelData.qty = 10;
-    productsModelData.price = 150;
-    productsModelData.save((error, dataval) => {
-        if (error) {
-            console.log(error);
-        } else {
-            var products = productsModel.find({}, (err, dataValue) => {
-                if (err) {
-                    res.send({
-                        status: false,
-                        data: err
-                    });
-                } else {
-                    res.send({
-                        status: true,
-                        data: dataValue
-                    });
-                }
-            });
-        }
-    });
+// server.post('/createProducts', (req, res) => {
+//     var productsModelData = new productsModel();
+//     productsModelData.item = "pen";
+//     productsModelData.qty = 10;
+//     productsModelData.price = 150;
+//     productsModelData.save((error, dataval) => {
+//         if (error) {
+//             console.log(error);
+//         } else {
+//             var products = productsModel.find({}, (err, dataValue) => {
+//                 if (err) {
+//                     res.send({
+//                         status: false,
+//                         data: err
+//                     });
+//                 } else {
+//                     res.send({
+//                         status: true,
+//                         data: dataValue
+//                     });
+//                 }
+//             });
+//         }
+//     });
 
 
 
-});
+// });
 
 /**
- * create new user
+ * get all product of products collection in database
  */
-server.post('/user/create', (req, res) => {
-    console.log(req.body);
-    res.send("user created successfully");
-});
+// server.get('/allproducts', (request, response) => {
+//     var allProducts = productsModel.find({}, (error, dataValue) => {
+//         if (error) {
+//             response.send({
+//                 status: false,
+//                 data: error
+//             });
+//         } else {
+//             response.send({
+//                 status: true,
+//                 data: dataValue
+//             });
+//         }
+//     });
+
+// });
+
+server.use(routes);
+
+
+
+
+
