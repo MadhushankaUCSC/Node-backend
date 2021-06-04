@@ -6,10 +6,16 @@ module.exports.responseWithData = (response, dataVal) => {
 }
 
 
-module.exports.errorWithMessage = (response, error) => {
+module.exports.errorWithMessage = (response, message) => {
     return response.send({
         status: false,
-        message: error
+        message: message
     });
 }
 
+module.exports.successWithMessage = (response, message) => {
+    return response.send({
+        status: true,
+        message: message
+    });
+}

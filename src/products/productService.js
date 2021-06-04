@@ -36,3 +36,45 @@ module.exports.createProductFunc = (requestData) => {
     });
 
 }
+
+module.exports.updateProductFunc = (id, requestData) => {
+    return new Promise((resolve, reject) => {
+
+        console.log(requestData);
+        console.log(id);
+
+
+        productsModel.findByIdAndUpdate(id, requestData, (error, dataVal) => {
+            if (error) {
+                console.log(error);
+                reject({ status: false, message: "product not updated successfully" });
+            } else {
+                // resolve(dataVal);
+                resolve({ status: true, message: "product updated successfully" });
+            }
+        });
+
+    });
+
+}
+
+module.exports.deleteProductFunc = (id) => {
+    return new Promise((resolve, reject) => {
+
+        //console.log(requestData);
+        //console.log(id);
+
+
+        productsModel.findByIdAndDelete(id, (error, dataVal) => {
+            if (error) {
+                console.log(error);
+                reject({ status: false, message: "product not Deleted successfully" });
+            } else {
+                // resolve(dataVal);
+                resolve({ status: true, message: "product deleted successfully" });
+            }
+        });
+
+    });
+
+}
